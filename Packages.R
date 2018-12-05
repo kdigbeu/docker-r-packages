@@ -6,16 +6,16 @@ recursively_install <- function(packages) {
 	completed <- c()
 	recursively_install_sub <- function(packages) {
 		for (package in packages) {
-			cat("\n>>>>>>>>>>>> Starting installation of package: ", package, "\n")
 			if (!require(package, character.only=TRUE)) {
 				dependencies <- pacman::p_depends(package, character.only=TRUE)
 				recursively_install_sub(dependencies)
 				if (!is.element(package, completed)) {
 					completed <<- c(completed, package)
+					cat("\n>>>>>>>>>>>> Starting installation of package: ", package, "\n")
 					pacman::p_install(package, character.only=TRUE)
+					cat("\n>>>>>>>>>>>> Completed installation of package: ", package, "\n")
 				}
 			}
-			cat("\n>>>>>>>>>>>> Completed installation of package: ", package, "\n")
 		}
 	}
 	recursively_install_sub(packages)
