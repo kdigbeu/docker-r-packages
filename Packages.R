@@ -4,25 +4,26 @@ if (!require("pacman")) install.packages("pacman")
 # Function to recursively install all packages and their dependencies
 recursively_install <- function(packages) {
 	completed <- c()
-	recursively_install_sub <- function(packages) {
+	tree <- ""
+	recursively_install_sub <- function(packages, tree) {
 		for (package in packages) {
 			if (!require(package, character.only=TRUE)) {
 				cat("\n>>>>>>>>>>>> Analyzing dependencies of package: ", package, "\n")
 				dependencies <- pacman::p_depends(package, character.only=TRUE)$Imports
 				cat("\n>>>>>>>>>>>> Found the following dependencies: ", toString(dependencies), "\n")
-				recursively_install_sub(dependencies)
+				recursively_install_sub(dependencies,  paste0(tree, " -> ", package))
 				if (!is.element(package, completed)) {
 					completed <<- c(completed, package)
 					cat("\n>>>>>>>>>>>> Starting installation of package: ", package, "\n")
 					pacman::p_install(package, character.only=TRUE)
-					cat("\n>>>>>>>>>>>> Completed installation of package: ", package, "\n")
+					cat("\n>>>>>>>>>>>> Completed installation of package: ", tree, "\n")
 				}
 			} else {
 				cat("\n>>>>>>>>>>>> The following package already exists: ", package, "\n")
 			}
 		}
 	}
-	recursively_install_sub(packages)
+	recursively_install_sub(packages, tree)
 }
 
 # List of packages to install
