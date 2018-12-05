@@ -17,6 +17,8 @@ recursively_install <- function(packages) {
 					pacman::p_install(package, character.only=TRUE)
 					cat("\n>>>>>>>>>>>> Completed installation of package: ", package, "\n")
 				}
+			} else {
+				cat("\n>>>>>>>>>>>> The following package already exists: ", package, "\n")
 			}
 		}
 	}
