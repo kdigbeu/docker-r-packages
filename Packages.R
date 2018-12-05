@@ -12,9 +12,9 @@ recursively_install <- function(packages) {
 				recursively_install_sub(dependencies,  tree_sub)
 				pacman::p_install(package, character.only=TRUE)
 				completed <<- c(completed, package)
-				cat("\n>>>>>>>>>>>> Completed installation of package: ", tree_sub, "\n")
+				cat("\n>>>>>>>>>>>> Completed installation of package:", tree_sub, "\n")
 			} else {
-				cat("\n>>>>>>>>>>>> Already installed: ", tree_sub, "\n")
+				cat("\n>>>>>>>>>>>> Already installed:", tree_sub, "\n")
 			}
 		}
 	}
