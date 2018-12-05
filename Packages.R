@@ -6,15 +6,15 @@ recursively_install <- function(packages) {
 	completed <- c()
 	recursively_install_sub <- function(packages, tree) {
 		for (package in packages) {
-			tree <- paste0(tree, " -> ", package)
+			tree_sub <- paste0(tree, " -> ", package)
 			if (!is.element(package, completed) & !require(package, character.only=TRUE)) {
 				dependencies <- pacman::p_depends(package, character.only=TRUE)$Imports
-				recursively_install_sub(dependencies,  tree)
+				recursively_install_sub(dependencies,  tree_sub)
 				pacman::p_install(package, character.only=TRUE)
 				completed <<- c(completed, package)
-				cat("\n>>>>>>>>>>>> Completed installation of package: ", tree, "\n")
+				cat("\n>>>>>>>>>>>> Completed installation of package: ", tree_sub, "\n")
 			} else {
-				cat("\n>>>>>>>>>>>> Already installed: ", tree, "\n")
+				cat("\n>>>>>>>>>>>> Already installed: ", tree_sub, "\n")
 			}
 		}
 	}
