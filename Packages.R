@@ -9,7 +9,7 @@ recursively_install <- function(packages) {
 			if (!require(package, character.only=TRUE)) {
 				cat("\n>>>>>>>>>>>> Analyzing dependencies of package: ", package, "\n")
 				dependencies <- pacman::p_depends(package, character.only=TRUE)$Imports
-				cat("\n>>>>>>>>>>>> Found the following dependencies: ", toString(dependencies))
+				cat("\n>>>>>>>>>>>> Found the following dependencies: ", toString(dependencies), "\n")
 				recursively_install_sub(dependencies)
 				if (!is.element(package, completed)) {
 					completed <<- c(completed, package)
