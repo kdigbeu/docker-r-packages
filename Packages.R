@@ -6,8 +6,8 @@ recursively_install <- function(packages) {
 	completed <- c()
 	recursively_install_sub <- function(packages) {
 		for (package in packages) {
-			cat("\n>>>>>>>>>>>> Analyzing dependencies of package: ", package, "\n")
 			if (!require(package, character.only=TRUE)) {
+				cat("\n>>>>>>>>>>>> Analyzing dependencies of package: ", package, "\n")
 				dependencies <- pacman::p_depends(package, character.only=TRUE)$Imports
 				cat("\n>>>>>>>>>>>> Found the following dependencies: ", toString(dependencies))
 				recursively_install_sub(dependencies)
